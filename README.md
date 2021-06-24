@@ -1,6 +1,6 @@
 # Telecom_churn_case_study
 
-## Co-authored by @SankalpSeksaria (https://github.com/sankalpseksaria)
+### Co-authored by @SankalpSeksaria (https://github.com/sankalpseksaria)
 
 ## Problem Statement
 ## Business problem overview
