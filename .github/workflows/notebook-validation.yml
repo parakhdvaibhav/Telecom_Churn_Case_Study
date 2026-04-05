@@ -1,0 +1,54 @@
+name: Notebook Validation
+
+on:
+  push:
+    branches: [main, master, "copilot/**"]
+    paths:
+      - "notebooks/**"
+  pull_request:
+    branches: [main, master]
+    paths:
+      - "notebooks/**"
+
+jobs:
+  validate-notebooks:
+    name: Validate Notebooks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install nbformat
+        run: pip install nbformat==5.9.2
+      - name: Validate notebook syntax
+        run: |
+          python -c "
+          import nbformat
+          import sys
+          from pathlib import Path
+
+          errors = []
+          notebooks = list(Path('notebooks').glob('*.ipynb'))
+
+          if not notebooks:
+              print('No notebooks found to validate.')
+              sys.exit(0)
+
+          for nb_path in notebooks:
+              try:
+                  with open(nb_path) as f:
+                      nb = nbformat.read(f, as_version=4)
+                  nbformat.validate(nb)
+                  print(f'OK: {nb_path}')
+              except Exception as e:
+                  errors.append(f'FAIL: {nb_path} - {e}')
+                  print(f'FAIL: {nb_path} - {e}')
+
+          if errors:
+              print(f'\n{len(errors)} notebook(s) failed validation.')
+              sys.exit(1)
+          else:
+              print(f'\nAll {len(notebooks)} notebook(s) passed validation.')
+          "
