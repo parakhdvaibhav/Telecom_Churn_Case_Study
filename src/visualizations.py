@@ -124,8 +124,10 @@ def plot_feature_by_churn(
             data=plot_df,
             x=churn_col,
             y=feature,
+            hue=churn_col,
             ax=ax,
             palette=list(CHURN_COLORS.values()),
+            legend=False,
         )
 
     elif kind == "hist":
