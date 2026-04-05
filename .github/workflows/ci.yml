@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install linting tools
-        run: pip install black==23.12.1 flake8==7.0.0
+        run: pip install black==26.3.1 flake8==7.0.0
       - name: Check formatting with Black
         run: black --check src/ tests/ examples/
       - name: Lint with Flake8
